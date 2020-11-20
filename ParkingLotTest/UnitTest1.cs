@@ -6,7 +6,7 @@ namespace ParkingLotTest
     public class UnitTest1
     {
         [Fact]
-        public void Test1()
+        public void FisrtTest()
         {
             var class1 = new Class1();
             Assert.NotNull(class1);
