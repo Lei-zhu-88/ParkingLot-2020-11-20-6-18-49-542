@@ -46,8 +46,6 @@ namespace ParkingLotTest
         {
             //given
             var parkingLotSystem = new ParkingLotSystem();
-            //var customer = new Customer();
-            //Customer_should_fetch_his_car_successfully_after_park
             //when
             var numberPlate = "XX2345";
             var parkingTicket = parkingLotSystem.Park(numberPlate);
@@ -55,5 +53,32 @@ namespace ParkingLotTest
             //then
             Assert.Equal(numberPlate, actual);
         }
+
+        [Fact]
+        public void A_parkingLot_should_not_contain_this_car_after_fetched()
+        {
+            //given
+            var parkingLotSystem = new ParkingLotSystem();
+            //when
+            var numberPlate = "XX2345";
+            var parkingTicket = parkingLotSystem.Park(numberPlate);
+            var actual = parkingLotSystem.Fetch(parkingTicket);
+            //then
+            Assert.DoesNotContain(numberPlate, parkingLotSystem.ParkingLot);
+        }
+
+        //[Fact]
+        //public void Car_Should_not_be_fetched_according_to_used_parking_ticket()
+        //{
+        //    //given
+        //    var parkingLotSystem = new ParkingLotSystem();
+        //    //when
+        //    var numberPlate = "XX2345";
+        //    var parkingTicket = parkingLotSystem.Park(numberPlate);
+        //    parkingLotSystem.Fetch(parkingTicket);
+        //    var actual = parkingLotSystem.Fetch(parkingTicket);
+        //    //then
+        //    Assert.Empty();
+        //}
     }
 }
