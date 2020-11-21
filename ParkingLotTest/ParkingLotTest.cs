@@ -164,5 +164,24 @@ namespace ParkingLotSystemTest
             //then
             Assert.Equal(expect, actual);
         }
+
+        [Fact]
+        public void ErrorMessage_Should_be_provided_if_parkinglot_is_full()
+        {
+            //given
+            var parkingLot = new ParkingLot();
+            //when
+            for (int i = 0; i < 10; i++)
+            {
+                parkingLot.Park(i.ToString());
+            }
+
+            var numberPlate = "XX2345";
+            parkingLot.Park(numberPlate);
+            var actual = parkingLot.ErrorMessage;
+            var expect = "Not enough position.";
+            //then
+            Assert.Equal(expect, actual);
+        }
     }
 }

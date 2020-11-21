@@ -42,8 +42,14 @@ namespace ParkingLotSystem
 
         public string Park(string numberPlate)
         {
-            if (ParkingCarsList.Count >= this.parkingCapacity || numberPlate == null || ParkingCarsList.Contains(numberPlate))
+            if (numberPlate == null || ParkingCarsList.Contains(numberPlate))
             {
+                return string.Empty;
+            }
+
+            if (ParkingCarsList.Count >= this.parkingCapacity)
+            {
+                ErrorMessage = "Not enough position.";
                 return string.Empty;
             }
 
