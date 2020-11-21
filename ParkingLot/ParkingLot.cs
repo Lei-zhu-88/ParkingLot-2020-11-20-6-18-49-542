@@ -36,7 +36,7 @@ namespace ParkingLotSystem
 
         public string Park(string numberPlate)
         {
-            if (ParkingCarsList.Count >= this.parkinglotCapacity || numberPlate == null)
+            if (ParkingCarsList.Count >= this.parkinglotCapacity || numberPlate == null || ParkingCarsList.Contains(numberPlate))
             {
                 return string.Empty;
             }
