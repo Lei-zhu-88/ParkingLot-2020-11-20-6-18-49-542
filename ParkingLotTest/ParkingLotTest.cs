@@ -149,5 +149,20 @@ namespace ParkingLotSystemTest
             //then
             Assert.Equal(expect, actual);
         }
+
+        [Fact]
+        public void ErrorMessage_Should_be_provided_When_no_ticket_is_given()
+        {
+            //given
+            var parkingLot = new ParkingLot();
+            //when
+            var numberPlate = "XX2345";
+            var parkingTicket = parkingLot.Park(numberPlate);
+            parkingLot.Fetch(null);
+            var actual = parkingLot.ErrorMessage;
+            var expect = "Please provide your parking ticket.";
+            //then
+            Assert.Equal(expect, actual);
+        }
     }
 }

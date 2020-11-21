@@ -55,15 +55,17 @@ namespace ParkingLotSystem
 
         public string Fetch(string parkingTicket)
         {
-            var numberPlate = Decode(parkingTicket);
-
-            if (!ParkingCarsList.Contains(numberPlate))
+            if (parkingTicket == null)
             {
-                ErrorMessage = "Unrecognized parking ticket";
+                ErrorMessage = "Please provide your parking ticket.";
+                return string.Empty;
             }
 
-            if (UsedTicketList.Contains(parkingTicket))
+            var numberPlate = Decode(parkingTicket);
+
+            if (!ParkingCarsList.Contains(numberPlate) || UsedTicketList.Contains(parkingTicket))
             {
+                ErrorMessage = "Unrecognized parking ticket";
                 return string.Empty;
             }
 
