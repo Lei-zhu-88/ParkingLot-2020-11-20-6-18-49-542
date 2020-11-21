@@ -10,16 +10,22 @@ namespace ParkingLotSystem
         private List<string> parkingCarsList = new List<string>();
         private List<string> usedTicketList = new List<string>();
 
-        private int parkinglotCapacity;
+        private int parkingCapacity;
 
         public ParkingLot()
         {
-            parkinglotCapacity = 10;
+            parkingCapacity = 10;
         }
 
-        public ParkingLot(int parkinglotCapacity)
+        public ParkingLot(int parkingCapacity)
         {
-            this.parkinglotCapacity = parkinglotCapacity;
+            this.parkingCapacity = parkingCapacity;
+        }
+
+        public string ErrorMessage
+        {
+            get;
+            set;
         }
 
         public List<string> ParkingCarsList
@@ -36,7 +42,7 @@ namespace ParkingLotSystem
 
         public string Park(string numberPlate)
         {
-            if (ParkingCarsList.Count >= this.parkinglotCapacity || numberPlate == null || ParkingCarsList.Contains(numberPlate))
+            if (ParkingCarsList.Count >= this.parkingCapacity || numberPlate == null || ParkingCarsList.Contains(numberPlate))
             {
                 return string.Empty;
             }
@@ -53,7 +59,7 @@ namespace ParkingLotSystem
 
             if (!ParkingCarsList.Contains(numberPlate))
             {
-                Console.WriteLine("No excite this car");
+                ErrorMessage = "Unrecognized parking ticket";
             }
 
             if (UsedTicketList.Contains(parkingTicket))
