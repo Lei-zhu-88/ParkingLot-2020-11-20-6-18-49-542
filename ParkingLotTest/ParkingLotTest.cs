@@ -109,5 +109,17 @@ namespace ParkingLotSystemTest
             //then
             Assert.Empty(actual);
         }
+
+        [Fact]
+        public void Should_Return_no_parkingTicket_when_park_null_car()
+        {
+            //given
+            var parkingLot = new ParkingLot();
+            //when
+            string numberPlate = null;
+            var actual = parkingLot.Park(numberPlate);
+            //then
+            Assert.Empty(actual);
+        }
     }
 }
