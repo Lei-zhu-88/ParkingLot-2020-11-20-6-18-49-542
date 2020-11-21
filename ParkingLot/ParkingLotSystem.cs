@@ -8,11 +8,18 @@ namespace ParkingLot
     public class ParkingLotSystem
     {
         private List<string> parkingLot = new List<string>();
+        private List<string> usedTicketList = new List<string>();
 
         public List<string> ParkingLot
         {
             get { return parkingLot; }
             set { parkingLot = value; }
+        }
+
+        public List<string> UsedTicketList
+        {
+            get { return usedTicketList; }
+            set { usedTicketList = value; }
         }
 
         public string Park(string numberPlate)
@@ -32,14 +39,24 @@ namespace ParkingLot
                 Console.WriteLine("No excite this car");
             }
 
+            if (UsedTicketList.Contains(parkingTicket))
+            {
+                return string.Empty;
+            }
+
             ParkingLot.Remove(numberPlate);
+            UsedTicketList.Add(parkingTicket);
             return numberPlate;
         }
 
         public string Decode(string parkingTicket)
         {
-            var numberPlate = parkingTicket.Substring(0, ParkingLot[0].Length);
-            return numberPlate;
+            if (parkingTicket.Length == 0 || ParkingLot.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            return parkingTicket.Substring(0, ParkingLot[0].Length);
         }
     }
 }
