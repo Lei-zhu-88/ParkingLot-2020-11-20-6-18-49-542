@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using ParkingLotSystem;
 
 namespace ParkingLotSystemTest
 {
-    using ParkingLotSystem;
     using Xunit;
 
     public class ParkingLotTest
@@ -214,6 +214,21 @@ namespace ParkingLotSystemTest
             var numberPlate = "XX2345";
             var parkingTicket = parkingBoy.Park(numberPlate, parkingLots);
             var actualParkingLot = parkingLots[1];
+            //then
+            Assert.NotEmpty(parkingTicket);
+            Assert.Contains<string>("XX2345", actualParkingLot.ParkingCarsList);
+        }
+
+        [Fact]
+        public void SmartParkingBoy_Should_park_cars_to_more_space_parkingLot_when_no_car()
+        {
+            //given
+            var parkingLots = new List<ParkingLot>() { { new ParkingLot(2) }, { new ParkingLot(4) }, { new ParkingLot() } };
+            var parkingBoy = new SmartParkingBoy();
+            //when
+            var numberPlate = "XX2345";
+            var parkingTicket = parkingBoy.Park(numberPlate, parkingLots);
+            var actualParkingLot = parkingLots[2];
             //then
             Assert.NotEmpty(parkingTicket);
             Assert.Contains<string>("XX2345", actualParkingLot.ParkingCarsList);

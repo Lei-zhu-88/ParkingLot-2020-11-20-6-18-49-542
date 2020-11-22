@@ -33,5 +33,13 @@ namespace ParkingLotSystem
                 return ParkingCarsList.Count >= ParkingCapacity;
             }
         }
+
+        public int LeftPosition
+        {
+            get
+            {
+                return ParkingCapacity - ParkingCarsList.Count;
+            }
+        }
     }
 }

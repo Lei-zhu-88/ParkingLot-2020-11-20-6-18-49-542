@@ -35,14 +35,12 @@ namespace ParkingLotSystem
 
         public string Park(string numberPlate, List<ParkingLot> parkingLots)
         {
-            int parkingLotIndex = ChoseParkingLot(numberPlate, parkingLots);
-            if (parkingLotIndex > parkingLots.Count - 1)
+            ParkingLot parkingLot = ChoseParkingLot(parkingLots);
+            if (parkingLot == null)
             {
                 ErrorMessage = "Not enough position.";
                 return string.Empty;
             }
-
-            ParkingLot parkingLot = parkingLots[parkingLotIndex];
 
             if (numberPlate == null || IsParkedCar(numberPlate, parkingLots))
             {
@@ -78,15 +76,10 @@ namespace ParkingLotSystem
 
         public string Decode(string parkingTicket)
         {
-            //if (parkingTicket.Length == 0 || ParkingCarsList.Count == 0)
-            //{
-            //    return string.Empty;
-            //}
-
             return parkingTicket.Remove(parkingTicket.Length - 3);
         }
 
-        public int ChoseParkingLot(string numberPlate, List<ParkingLot> parkingLots)
+        public ParkingLot ChoseParkingLot(List<ParkingLot> parkingLots)
         {
             int parkingLotIndex = 0;
             foreach (var parkingLot in parkingLots)
@@ -97,7 +90,12 @@ namespace ParkingLotSystem
                 }
             }
 
-            return parkingLotIndex;
+            if (parkingLotIndex > parkingLots.Count - 1)
+            {
+                return null;
+            }
+
+            return parkingLots[parkingLotIndex];
         }
 
         public bool IsParkedCar(string numberPlate, List<ParkingLot> parkingLots)
@@ -114,4 +112,3 @@ namespace ParkingLotSystem
         }
     }
 }
-
