@@ -26,5 +26,20 @@ namespace ParkingLotTest
             Assert.Contains<ParkingBoy>(smartParkingBoy, manager.ParkingBoyList);
             Assert.Contains<ParkingBoy>(superSmartParkingBoy, manager.ParkingBoyList);
         }
+
+        [Fact]
+        public void Manager_Should_able_to_specify_a_parkingboy_on_his_list_to_park_a_car()
+        {
+            //given
+            List<ParkingLot> parkingLotList = new List<ParkingLot>() { { new ParkingLot(2) }, { new ParkingLot(4) }, { new ParkingLot() } };
+            var parkingBoy = new ParkingBoy("Jack", parkingLotList);
+            var manager = new Manager();
+            manager.AddParkingBoy(parkingBoy);
+            //when
+            var actualTicket = manager.SendBoyPark("XX1111", "Jack");
+            //then
+            Assert.Contains<string>("XX1111", parkingLotList[0].ParkingCarsList);
+            Assert.NotEmpty(actualTicket);
+        }
     }
 }

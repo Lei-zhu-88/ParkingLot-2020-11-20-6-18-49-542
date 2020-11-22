@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ParkingLotSystem
@@ -9,13 +10,7 @@ namespace ParkingLotSystem
         private readonly string name;
         public ParkingBoy()
         {
-            this.name = null;
         }
-
-        //public parkingboy(string name)
-        //{
-        //    this.name = name;
-        //}
 
         public ParkingBoy(string name, List<ParkingLot> parkingLotList)
         {
@@ -97,6 +92,29 @@ namespace ParkingLotSystem
                 ErrorMessage = "Unrecognized parking ticket";
                 return string.Empty;
             }
+
+            parkingLot.ParkingCarsList.Remove(numberPlate);
+            UsedTicketList.Add(parkingTicket);
+            return numberPlate;
+        }
+
+        public string Fetch(string parkingTicket, List<ParkingLot> parkingLots)
+        {
+            if (parkingTicket == null)
+            {
+                ErrorMessage = "Please provide your parking ticket.";
+                return string.Empty;
+            }
+
+            var numberPlate = Decode(parkingTicket);
+
+            if (!IsParkedCar(numberPlate, parkingLots) || UsedTicketList.Contains(parkingTicket))
+            {
+                ErrorMessage = "Unrecognized parking ticket";
+                return string.Empty;
+            }
+
+            var parkingLot = parkingLots.Where(parkingLot => parkingLot.ParkingCarsList.Contains(numberPlate)).ElementAt(0);
 
             parkingLot.ParkingCarsList.Remove(numberPlate);
             UsedTicketList.Add(parkingTicket);
