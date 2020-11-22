@@ -6,11 +6,33 @@ namespace ParkingLotSystem
 {
     public class ParkingBoy
     {
-        //private string name;
-        //public string Name
+        private readonly string name;
+        public ParkingBoy()
+        {
+            this.name = null;
+        }
+
+        //public parkingboy(string name)
         //{
-        //    get;
+        //    this.name = name;
         //}
+
+        public ParkingBoy(string name, List<ParkingLot> parkingLotList)
+        {
+            this.name = name;
+            foreach (var parkingLot in parkingLotList)
+            {
+                BoyParkingLotList.Add(parkingLot);
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+        }
 
         public string ErrorMessage
         {
@@ -19,6 +41,7 @@ namespace ParkingLotSystem
         }
 
         public List<string> UsedTicketList { get; set; } = new List<string>();
+        public List<ParkingLot> BoyParkingLotList { get; set; } = new List<ParkingLot>();
 
         public string Park(string numberPlate, ParkingLot parkingLot)
         {

@@ -7,6 +7,14 @@ namespace ParkingLotSystem
 {
     public class SuperSmartParkingBoy : ParkingBoy
     {
+        public SuperSmartParkingBoy()
+        {
+        }
+
+        public SuperSmartParkingBoy(string name, List<ParkingLot> parkingLotList) : base(name, parkingLotList)
+        {
+        }
+
         public new string Park(string numberPlate, List<ParkingLot> parkingLots)
         {
             ParkingLot parkingLot = ChoseParkingLot(parkingLots);
