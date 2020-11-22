@@ -228,10 +228,31 @@ namespace ParkingLotSystemTest
             //when
             var numberPlate = "XX2345";
             var parkingTicket = parkingBoy.Park(numberPlate, parkingLots);
-            var actualParkingLot = parkingLots[2];
+            var expectParkingLot = parkingLots[2];
             //then
             Assert.NotEmpty(parkingTicket);
-            Assert.Contains<string>("XX2345", actualParkingLot.ParkingCarsList);
+            Assert.Contains<string>("XX2345", expectParkingLot.ParkingCarsList);
+        }
+
+        [Fact]
+        public void SmartParkingBoy_Should_park_cars_to_more_space_parkingLot_with_cars()
+        {
+            //given
+            var parkingLots = new List<ParkingLot>() { { new ParkingLot(4) }, { new ParkingLot(5) }, { new ParkingLot() } };
+            var smartparkingBoy = new SmartParkingBoy();
+            var parkingBoy = new SmartParkingBoy();
+            //when
+            for (int i = 0; i < 10; i++)
+            {
+                parkingBoy.Park(i.ToString(), parkingLots[2]);
+            }
+
+            var numberPlate = "XX2345";
+            var parkingTicket = smartparkingBoy.Park(numberPlate, parkingLots);
+            var expectParkingLot = parkingLots[1];
+            //then
+            Assert.NotEmpty(parkingTicket);
+            Assert.Contains<string>("XX2345", expectParkingLot.ParkingCarsList);
         }
     }
 }
