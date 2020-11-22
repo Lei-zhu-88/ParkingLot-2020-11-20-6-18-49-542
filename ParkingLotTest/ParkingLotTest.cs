@@ -239,8 +239,8 @@ namespace ParkingLotSystemTest
         {
             //given
             var parkingLots = new List<ParkingLot>() { { new ParkingLot(4) }, { new ParkingLot(5) }, { new ParkingLot() } };
-            var smartparkingBoy = new SmartParkingBoy();
-            var parkingBoy = new SmartParkingBoy();
+            var smartParkingBoy = new SmartParkingBoy();
+            var parkingBoy = new ParkingBoy();
             //when
             for (int i = 0; i < 10; i++)
             {
@@ -248,8 +248,30 @@ namespace ParkingLotSystemTest
             }
 
             var numberPlate = "XX2345";
-            var parkingTicket = smartparkingBoy.Park(numberPlate, parkingLots);
+            var parkingTicket = smartParkingBoy.Park(numberPlate, parkingLots);
             var expectParkingLot = parkingLots[1];
+            //then
+            Assert.NotEmpty(parkingTicket);
+            Assert.Contains<string>("XX2345", expectParkingLot.ParkingCarsList);
+        }
+
+        [Fact]
+        public void SuperSmartParkingBoy_Should_park_cars_to_more_positionRate_parkingLot()
+        {
+            //given
+            var parkingLots = new List<ParkingLot>() { { new ParkingLot(4) }, { new ParkingLot(6) }, { new ParkingLot(2) } };
+            var superSmartParkingBoy = new SuperSmartParkingBoy();
+            var parkingBoy = new ParkingBoy();
+            //when
+            for (int i = 0; i < 2; i++)
+            {
+                parkingBoy.Park(i.ToString(), parkingLots[0]);
+                parkingBoy.Park(i.ToString(), parkingLots[1]);
+            }
+
+            var numberPlate = "XX2345";
+            var parkingTicket = superSmartParkingBoy.Park(numberPlate, parkingLots);
+            var expectParkingLot = parkingLots[2];
             //then
             Assert.NotEmpty(parkingTicket);
             Assert.Contains<string>("XX2345", expectParkingLot.ParkingCarsList);
