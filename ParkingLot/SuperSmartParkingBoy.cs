@@ -5,9 +5,9 @@ using System.Text;
 
 namespace ParkingLotSystem
 {
-    public class SuperSmartParkingBoy : SmartParkingBoy
+    public class SuperSmartParkingBoy : ParkingBoy
     {
-        new public string Park(string numberPlate, List<ParkingLot> parkingLots)
+        public new string Park(string numberPlate, List<ParkingLot> parkingLots)
         {
             ParkingLot parkingLot = ChoseParkingLot(parkingLots);
             if (parkingLot == null)
@@ -27,7 +27,7 @@ namespace ParkingLotSystem
             return parkingTicket;
         }
 
-        new public ParkingLot ChoseParkingLot(List<ParkingLot> parkingLots)
+        public new ParkingLot ChoseParkingLot(List<ParkingLot> parkingLots)
         {
             int numberOfFullParkingLot = parkingLots.Where(parkingLot => parkingLot.LeftPosition == 0).Count();
             if (numberOfFullParkingLot == parkingLots.Count)

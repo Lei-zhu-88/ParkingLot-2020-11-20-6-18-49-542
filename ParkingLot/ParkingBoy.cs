@@ -6,6 +6,12 @@ namespace ParkingLotSystem
 {
     public class ParkingBoy
     {
+        //private string name;
+        //public string Name
+        //{
+        //    get;
+        //}
+
         public string ErrorMessage
         {
             get;
