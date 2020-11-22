@@ -23,5 +23,15 @@ namespace ParkingLotSystem
         {
             get { return parkingCapacity; }
         }
+
+        public List<string> ParkingCarsList { get; set; } = new List<string>();
+
+        public bool IsFull
+        {
+            get
+            {
+                return ParkingCarsList.Count >= ParkingCapacity;
+            }
+        }
     }
 }

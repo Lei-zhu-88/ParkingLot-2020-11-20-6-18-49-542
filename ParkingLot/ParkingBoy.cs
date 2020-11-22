@@ -6,42 +6,56 @@ namespace ParkingLotSystem
 {
     public class ParkingBoy
     {
-        private List<string> usedTicketList = new List<string>();
-
         public string ErrorMessage
         {
             get;
             set;
         }
 
-        public List<string> ParkingCarsList { get; set; } = new List<string>();
+        public List<string> UsedTicketList { get; set; } = new List<string>();
 
-        public List<string> UsedTicketList
+        public string Park(string numberPlate, ParkingLot parkingLot)
         {
-            get { return usedTicketList; }
-            set { usedTicketList = value; }
-        }
-
-        public string Park(string numberPlate, int parkingLotCapacity)
-        {
-            if (numberPlate == null || ParkingCarsList.Contains(numberPlate))
+            if (numberPlate == null || parkingLot.ParkingCarsList.Contains(numberPlate))
             {
                 return string.Empty;
             }
 
-            if (ParkingCarsList.Count >= parkingLotCapacity)
+            if (parkingLot.ParkingCarsList.Count >= parkingLot.ParkingCapacity)
             {
                 ErrorMessage = "Not enough position.";
                 return string.Empty;
             }
 
-            ParkingCarsList.Add(numberPlate);
+            parkingLot.ParkingCarsList.Add(numberPlate);
             Random random = new Random();
             string parkingTicket = numberPlate + random.Next(100, 999).ToString();
             return parkingTicket;
         }
 
-        public string Fetch(string parkingTicket)
+        public string Park(string numberPlate, List<ParkingLot> parkingLots)
+        {
+            int parkingLotIndex = ChoseParkingLot(numberPlate, parkingLots);
+            if (parkingLotIndex > parkingLots.Count - 1)
+            {
+                ErrorMessage = "Not enough position.";
+                return string.Empty;
+            }
+
+            ParkingLot parkingLot = parkingLots[parkingLotIndex];
+
+            if (numberPlate == null || IsParkedCar(numberPlate, parkingLots))
+            {
+                return string.Empty;
+            }
+
+            parkingLot.ParkingCarsList.Add(numberPlate);
+            Random random = new Random();
+            string parkingTicket = numberPlate + random.Next(100, 999).ToString();
+            return parkingTicket;
+        }
+
+        public string Fetch(string parkingTicket, ParkingLot parkingLot)
         {
             if (parkingTicket == null)
             {
@@ -51,25 +65,52 @@ namespace ParkingLotSystem
 
             var numberPlate = Decode(parkingTicket);
 
-            if (!ParkingCarsList.Contains(numberPlate) || UsedTicketList.Contains(parkingTicket))
+            if (!parkingLot.ParkingCarsList.Contains(numberPlate) || UsedTicketList.Contains(parkingTicket))
             {
                 ErrorMessage = "Unrecognized parking ticket";
                 return string.Empty;
             }
 
-            ParkingCarsList.Remove(numberPlate);
+            parkingLot.ParkingCarsList.Remove(numberPlate);
             UsedTicketList.Add(parkingTicket);
             return numberPlate;
         }
 
         public string Decode(string parkingTicket)
         {
-            if (parkingTicket.Length == 0 || ParkingCarsList.Count == 0)
+            //if (parkingTicket.Length == 0 || ParkingCarsList.Count == 0)
+            //{
+            //    return string.Empty;
+            //}
+
+            return parkingTicket.Remove(parkingTicket.Length - 3);
+        }
+
+        public int ChoseParkingLot(string numberPlate, List<ParkingLot> parkingLots)
+        {
+            int parkingLotIndex = 0;
+            foreach (var parkingLot in parkingLots)
             {
-                return string.Empty;
+                if (parkingLot.IsFull)
+                {
+                    parkingLotIndex++;
+                }
             }
 
-            return parkingTicket.Substring(0, ParkingCarsList[0].Length);
+            return parkingLotIndex;
+        }
+
+        public bool IsParkedCar(string numberPlate, List<ParkingLot> parkingLots)
+        {
+            foreach (var parkingLot in parkingLots)
+            {
+                if (parkingLot.ParkingCarsList.Contains(numberPlate))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

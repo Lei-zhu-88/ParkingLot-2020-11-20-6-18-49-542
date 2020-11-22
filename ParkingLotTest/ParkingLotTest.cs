@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace ParkingLotSystemTest
 {
@@ -16,7 +17,7 @@ namespace ParkingLotSystemTest
             //when
             var numberPlate = "XX2345";
             //then
-            Assert.NotNull(parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity));
+            Assert.NotNull(parkingBoy.Park(numberPlate, parkingLot));
         }
 
         [Fact]
@@ -28,7 +29,7 @@ namespace ParkingLotSystemTest
             //when
             var numberPlate = "XX2345";
             //then
-            Assert.IsType<string>(parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity));
+            Assert.IsType<string>(parkingBoy.Park(numberPlate, parkingLot));
         }
 
         [Fact]
@@ -39,10 +40,10 @@ namespace ParkingLotSystemTest
             var parkingBoy = new ParkingBoy();
             //when
             string numberPlate = "XX2";
-            var ticket = parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity);
+            var ticket = parkingBoy.Park(numberPlate, parkingLot);
             //then
             Assert.NotEmpty(ticket);
-            Assert.Contains<string>("XX2", parkingBoy.ParkingCarsList);
+            Assert.Contains<string>("XX2", parkingLot.ParkingCarsList);
         }
 
         [Fact]
@@ -53,8 +54,8 @@ namespace ParkingLotSystemTest
             var parkingBoy = new ParkingBoy();
             //when
             var numberPlate = "XX2345";
-            var parkingTicket = parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity);
-            var actual = parkingBoy.Fetch(parkingTicket);
+            var parkingTicket = parkingBoy.Park(numberPlate, parkingLot);
+            var actual = parkingBoy.Fetch(parkingTicket, parkingLot);
             //then
             Assert.Equal(numberPlate, actual);
         }
@@ -67,10 +68,10 @@ namespace ParkingLotSystemTest
             var parkingBoy = new ParkingBoy();
             //when
             var numberPlate = "XX2345";
-            var parkingTicket = parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity);
-            var actual = parkingBoy.Fetch(parkingTicket);
+            var parkingTicket = parkingBoy.Park(numberPlate, parkingLot);
+            var actual = parkingBoy.Fetch(parkingTicket, parkingLot);
             //then
-            Assert.DoesNotContain(numberPlate, parkingBoy.ParkingCarsList);
+            Assert.DoesNotContain(numberPlate, parkingLot.ParkingCarsList);
         }
 
         [Fact]
@@ -81,9 +82,9 @@ namespace ParkingLotSystemTest
             var parkingBoy = new ParkingBoy();
             //when
             var numberPlate = "XX2345";
-            var parkingTicket = parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity);
-            parkingBoy.Fetch(parkingTicket);
-            var actual = parkingBoy.Fetch(parkingTicket);
+            var parkingTicket = parkingBoy.Park(numberPlate, parkingLot);
+            parkingBoy.Fetch(parkingTicket, parkingLot);
+            var actual = parkingBoy.Fetch(parkingTicket, parkingLot);
             //then
             Assert.Empty(actual);
         }
@@ -96,7 +97,7 @@ namespace ParkingLotSystemTest
             var parkingBoy = new ParkingBoy();
             //when
             var numberPlate = "XX2345";
-            var actual = parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity);
+            var actual = parkingBoy.Park(numberPlate, parkingLot);
             //then
             Assert.Empty(actual);
         }
@@ -111,10 +112,10 @@ namespace ParkingLotSystemTest
             var numberPlate = "XX2345";
             for (int i = 0; i < 10; i++)
             {
-                parkingBoy.Park(i.ToString(), parkingLot.ParkingCapacity);
+                parkingBoy.Park(i.ToString(), parkingLot);
             }
 
-            var actual = parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity);
+            var actual = parkingBoy.Park(numberPlate, parkingLot);
             //then
             Assert.Empty(actual);
         }
@@ -127,7 +128,7 @@ namespace ParkingLotSystemTest
             var parkingBoy = new ParkingBoy();
             //when
             string numberPlate = null;
-            var actual = parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity);
+            var actual = parkingBoy.Park(numberPlate, parkingLot);
             //then
             Assert.Empty(actual);
         }
@@ -140,8 +141,8 @@ namespace ParkingLotSystemTest
             var parkingBoy = new ParkingBoy();
             //when
             string numberPlate = "XX2345";
-            parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity);
-            var actual = parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity);
+            parkingBoy.Park(numberPlate, parkingLot);
+            var actual = parkingBoy.Park(numberPlate, parkingLot);
             //then
             Assert.Empty(actual);
         }
@@ -154,8 +155,8 @@ namespace ParkingLotSystemTest
             var parkingBoy = new ParkingBoy();
             //when
             var numberPlate = "XX2345";
-            var parkingTicket = parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity);
-            parkingBoy.Fetch("111111");
+            var parkingTicket = parkingBoy.Park(numberPlate, parkingLot);
+            parkingBoy.Fetch("111111", parkingLot);
             var actual = parkingBoy.ErrorMessage;
             var expect = "Unrecognized parking ticket";
             //then
@@ -170,8 +171,8 @@ namespace ParkingLotSystemTest
             var parkingBoy = new ParkingBoy();
             //when
             var numberPlate = "XX2345";
-            var parkingTicket = parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity);
-            parkingBoy.Fetch(null);
+            var parkingTicket = parkingBoy.Park(numberPlate, parkingLot);
+            parkingBoy.Fetch(null, parkingLot);
             var actual = parkingBoy.ErrorMessage;
             var expect = "Please provide your parking ticket.";
             //then
@@ -187,15 +188,35 @@ namespace ParkingLotSystemTest
             //when
             for (int i = 0; i < 10; i++)
             {
-                parkingBoy.Park(i.ToString(), parkingLot.ParkingCapacity);
+                parkingBoy.Park(i.ToString(), parkingLot);
             }
 
             var numberPlate = "XX2345";
-            parkingBoy.Park(numberPlate, parkingLot.ParkingCapacity);
+            parkingBoy.Park(numberPlate, parkingLot);
             var actual = parkingBoy.ErrorMessage;
             var expect = "Not enough position.";
             //then
             Assert.Equal(expect, actual);
+        }
+
+        [Fact]
+        public void ParkingBoy_Should_park_cars_to_parkingLots_in_sequence()
+        {
+            //given
+            var parkingLots = new List<ParkingLot>() { { new ParkingLot(2) }, { new ParkingLot() } };
+            var parkingBoy = new ParkingBoy();
+            //when
+            for (int i = 0; i < 2; i++)
+            {
+                parkingBoy.Park(i.ToString(), parkingLots);
+            }
+
+            var numberPlate = "XX2345";
+            var parkingTicket = parkingBoy.Park(numberPlate, parkingLots);
+            var actualParkingLot = parkingLots[1];
+            //then
+            Assert.NotEmpty(parkingTicket);
+            Assert.Contains<string>("XX2345", actualParkingLot.ParkingCarsList);
         }
     }
 }
