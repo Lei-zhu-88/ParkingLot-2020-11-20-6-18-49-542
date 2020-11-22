@@ -35,7 +35,7 @@ namespace ParkingLotSystem
                 return null;
             }
 
-            ParkingLot parkingLot = parkingLots.OrderByDescending(parkingLot => (parkingLot.LeftPosition / parkingLot.ParkingCapacity)).ElementAt(0);
+            ParkingLot parkingLot = parkingLots.OrderByDescending(parkingLot => (Convert.ToDouble(parkingLot.LeftPosition) / Convert.ToDouble(parkingLot.ParkingCapacity))).ElementAt(0);
             return parkingLot;
         }
     }
